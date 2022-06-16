@@ -7,7 +7,7 @@
 export default {
   computed: {
     products() {
-
+this.$store.commit('increment', 3);
         // this.$store.mutations.IsAvailableFunc;
       return this.$store.getters.availableProducts;
     },
