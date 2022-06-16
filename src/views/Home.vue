@@ -1,15 +1,22 @@
 <template>
   <section>
-    <h1>{{products}}</h1>
+    <button @click="addApple()">+1 to quantity of apple</button>
+    <button @click="availableProducts()">Show Only Availabe products</button>
+    <button @click="allProducts()">Show All</button>
+    <h1 v-for="(item, index) in products" :key="index">
+      {{ item }}
+    </h1>
   </section>
 </template>
 <script>
 export default {
   computed: {
-    products() {
-this.$store.commit('increment', 3);
-        // this.$store.mutations.IsAvailableFunc;
-      return this.$store.getters.availableProducts;
+    allProducts() {
+      // this.$store.mutations.IsAvailableFunc;
+      return this.$store.getters.getAllProducts;
+    },
+    availableProducts() {
+      return this.$store.getters.getAvailableProducts;
     },
   },
 };
