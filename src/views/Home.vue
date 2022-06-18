@@ -3,13 +3,18 @@
     <button @click="addApple()">+1 to quantity of apple</button>
     <button @click="availableProducts()">Show Only Availabe products</button>
     <button @click="allProducts()">Show All</button>
-    <h1 v-for="(item, index) in products" :key="index">
+    <h1 v-for="(item, index) in allProducts" :key="index">
       {{ item }}
     </h1>
   </section>
 </template>
 <script>
 export default {
+  data() {
+    return {
+        selected:null
+    };
+  },
   computed: {
     allProducts() {
       // this.$store.mutations.IsAvailableFunc;
