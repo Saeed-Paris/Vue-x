@@ -1,22 +1,42 @@
 import { createStore } from "vuex";
+import axios from "axios";
 
 export default createStore({
   state: {
-    products: [
-      { id: 1, price: 1000, isAvailable: true, title: "Orange", quantity: 5 },
-      { id: 2, price: 2000, isAvailable: false, title: "Apple", quantity: 0 },
-      { id: 3, price: 3000, isAvailable: true, title: "Banana", quantity: 3 },
-    ],
+    products: [],
   },
   getters: {
-    getAllProducts: (state) => {
+    getAllProducts(state) {
       return state.products;
     },
-    getAvailableProducts: (state) => {
-      return state.products.filter((p) => p.isAvailable);
+    getAllCategories(state) {
+      const res = Object.values(
+        state.products.reduce((a, { category }) => {
+          a[category] = { category };
+          return a;
+        }, {})
+      );
+      return res
     },
+    //   const res = Object.values(
+    //     state.products.reduce((a, { category }) => {
+    //       a[category] = { category };
+    //       return a;
+    //     }, {})
+    //   );
+
+    //   return res;
+    // state.products.forEach(function (e) {
+    //   if (!state.products.includes(e.category)) {
+    //    state.products.push(e.category)
+    //   }
+    // });
+
+    // getAvailableProducts: (state) => {
+    //   return state.products.filter((p) => p.isAvailable);
+    // },
   },
-  // mutation commit 
+  // mutation commit
   // action dispatch
   mutations: {
     // toggleAvailability(state, product) {
@@ -32,8 +52,42 @@ export default createStore({
     // addProductQuantity(state, product, numb) {
     // state.products.product.quantity += numb;
     // },
-    
+    // SET_Products(state, products) {
+    //   state.products = products;
+    // },
+
+    setProducts(state, newProducts) {
+      // for API
+      state.products = newProducts;
+    },
+    latestProducts(state) {
+      state.products.sort((a, b) => {
+        return b.id - a.id;
+      });
+    },
+    mostExpProducts(state) {
+      state.products.sort((a, b) => {
+        return b.price - a.price;
+      });
+    },
+    bestProdocts(state) {
+      state.products.sort((a, b) => {
+        return b.rating.rate - a.rating.rate;
+      });
+    },
   },
-  actions: {},
+  actions: {
+    async callApiForProducts({ commit }) {
+      const { data } = await axios.get("https://fakestoreapi.com/products");
+      commit("setProducts", data);
+    },
+    showLatestProductsAction({ commit }) {
+      commit("latestProducts");
+    },
+    mostExpProductsAction({ commit }) {
+      commit("mostExpProducts");
+    },
+  },
+
   modules: {},
 });

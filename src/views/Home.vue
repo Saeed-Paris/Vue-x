@@ -1,29 +1,15 @@
 <template>
-  <section>
-    <button @click="addApple()">+1 to quantity of apple</button>
-    <button @click="availableProducts()">Show Only Availabe products</button>
-    <button @click="allProducts()">Show All</button>
-    <h1 v-for="(item, index) in allProducts" :key="index">
-      {{ item }}
-    </h1>
-  </section>
+  <Header />
+  <!--<SearchBox /> -->
+  <TopProducts />
 </template>
 <script>
+import TopProducts from "@/components/home/TopProducts";
+import Header from "@/components/home/Header";
+
 export default {
-  data() {
-    return {
-        selected:null
-    };
-  },
-  computed: {
-    allProducts() {
-      // this.$store.mutations.IsAvailableFunc;
-      return this.$store.getters.getAllProducts;
-    },
-    availableProducts() {
-      return this.$store.getters.getAvailableProducts;
-    },
+  components: {
+    TopProducts,Header
   },
 };
 </script>
-<style lang=""></style>

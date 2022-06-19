@@ -5,7 +5,11 @@ const routes = [
     name: "Home",
     component: () => import("@/views/Home.vue"),
   },
- 
+  {
+    path: "/AllProducts",
+    name: "AllProducts",
+    component: () => import("@/views/AllProducts.vue"),
+  },
 ];
 
 const router = createRouter({
