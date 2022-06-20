@@ -16,7 +16,7 @@ export default createStore({
           return a;
         }, {})
       );
-      return res
+      return res;
     },
     //   const res = Object.values(
     //     state.products.reduce((a, { category }) => {
@@ -70,23 +70,30 @@ export default createStore({
         return b.price - a.price;
       });
     },
-    bestProdocts(state) {
+    // bestProdocts(state) {
+    //   state.products.sort((a, b) => {
+    //     return b.rating.rate - a.rating.rate;
+    //   });
+    // },
+    viewedProducts(state) {
       state.products.sort((a, b) => {
-        return b.rating.rate - a.rating.rate;
+        return b.views_count - a.views_count;
       });
     },
   },
   actions: {
     async callApiForProducts({ commit }) {
-      const { data } = await axios.get("https://fakestoreapi.com/products");
-      commit("setProducts", data);
+      const { data } = await axios.get(
+        `https://api.elinorboutique.com/v1/front/products`
+      );
+      commit("setProducts", data.data.products.data);
     },
-    showLatestProductsAction({ commit }) {
-      commit("latestProducts");
-    },
-    mostExpProductsAction({ commit }) {
-      commit("mostExpProducts");
-    },
+          // showLatestProductsAction({ commit }) {
+          //   commit("latestProducts");
+          // },
+          // mostExpProductsAction({ commit }) {
+          //   commit("mostExpProducts");
+          // },
   },
 
   modules: {},

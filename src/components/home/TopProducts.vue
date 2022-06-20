@@ -2,16 +2,16 @@
   <section>
     <div>
       <button @click="showLatestProducts()">جدید ترین ها</button
-      ><button @click="showBestProducts()">بهترین ها</button>
-      <button @click="mostExpProducts()">گران ترین ها</button> 
+      ><button @click="mostViewed()">محبوب ترین</button>
+      <button @click="mostExpProducts()">گران ترین ها</button>
     </div>
     <div class="gridContainer">
       <div v-for="(product, index) in call4ProductsGetters" :key="index">
-        <img :src="product.image" />
-        <p><span>esm:  </span>{{ product.title }}</p>
-        <p><span>gheymat:  </span>{{ product.price }}</p>
-        <p><span>id:  </span>{{ product.id }}</p>
-        <p><span>rate:  </span>{{ product.rating.rate }}</p>
+        <img :src="product.major_image.url" />
+        <p><span>esm: </span>{{ product.title }}</p>
+        <p><span>gheymat: </span>{{ product.price }}</p>
+        <p><span>id: </span>{{ product.id }}</p>
+        <!-- <p><span>rate:  </span>{{ product.rating.rate }}</p> -->
       </div>
     </div>
   </section>
@@ -34,8 +34,9 @@ export default {
     mostExpProducts() {
       this.$store.commit("mostExpProducts");
     },
-    showBestProducts() {
-      this.$store.commit("bestProdocts");
+
+    mostViewed() {
+      this.$store.commit("viewedProducts");
     },
   },
   beforeMount() {
@@ -61,8 +62,8 @@ export default {
   width: 300px;
   height: 300px;
 }
-.gridContainer span{
-font-size: 20px;
-color: red;
+.gridContainer span {
+  font-size: 20px;
+  color: red;
 }
 </style>
