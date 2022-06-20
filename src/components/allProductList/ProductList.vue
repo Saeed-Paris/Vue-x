@@ -1,15 +1,26 @@
 <template>
   <div class="productListContainer">
-    <div class="btnList">
-      <button @click="showLatestProducts()">جدید ترین ها</button>
-      <button @click="mostExpProducts()">گران ترین ها</button>
-      <button @click="mostViewed()">محبوب ترین</button>
-      <!-- mostViewed based on views-count -->
+    <div>
+      <div class="btnList">
+        <button @click="showLatestProducts()">جدید ترین ها</button>
+        <button @click="mostExpProducts()">گران ترین ها</button>
+        <button @click="mostViewed()">محبوب ترین</button>
+      </div>
+      <div class="btnContainer">
+        <button
+          v-for="index in 7"
+          :key="index"
+          :disabled="index == 4"
+          v-show="index - 4 + currentPage > 0"
+          @click="changePage(index - 4)"
+        >
+          {{ currentPage + index - 4 }}
+        </button>
+      </div>
     </div>
     <div class="productList">
-      <!-- :to="{ name: 'product-details', params: { id: product.id } }"-->
       <router-link to="" v-for="(product, index) in productList" :key="index">
-        <img :src="product.major_image.url" />
+        <img :class="{ blur: isLoading }" :src="product.major_image.url" />
         <p><span>esm: </span>{{ product.title }}</p>
         <p><span>gheymat: </span>{{ product.price }}</p>
       </router-link>
@@ -22,21 +33,31 @@ export default {
     productList() {
       return this.$store.getters.getAllProducts;
     },
+    currentPage() {
+      return this.$store.getters.getCurrentPage;
+    },
+    isLoading() {
+      return this.$store.getters.getIsLoading;
+    },
   },
   methods: {
-    mostExpProducts() {
-      this.$store.commit("mostExpProducts");
+    changePage(numb) {
+      this.$store.commit("changeCurrentPage", (this.currentPage += numb));
+      this.$store.dispatch("callApiForProducts", this.currentPage);
     },
-    showLatestProducts() {
-      this.$store.commit("latestProducts");
-    },
-    mostViewed() {
-      this.$store.commit("viewedProducts");
-    },
+  },
+  onMount() {
+    this.$store.dispatch("callApiForProducts", this.currentPage);
   },
 };
 </script>
 <style>
+.btnContainer {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px;
+}
 .productListContainer {
   grid-column: 1/8;
   width: 80%;
@@ -54,5 +75,11 @@ export default {
   display: flex;
   justify-content: center;
   gap: 50px;
+}
+.btnContainer button {
+  padding: 3px 10px;
+}
+.blur {
+  filter: blur(5px);
 }
 </style>

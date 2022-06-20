@@ -14,34 +14,20 @@
         <!-- <p><span>rate:  </span>{{ product.rating.rate }}</p> -->
       </div>
     </div>
+    
   </section>
 </template>
 <script>
 export default {
-  computed: {
-    call4ProductsGetters() {
-      return this.$store.getters.getAllProducts.slice(0, 5);
-    },
-  },
+  // computed: {
+  //   call4ProductsGetters() {
+  //     return this.$store.getters.getAllProducts.slice(0, 5);
+  //   },
+  // },
 
   methods: {
-    callAllProductsAction() {
-      this.$store.dispatch("callApiForProducts");
-    },
-    showLatestProducts() {
-      this.$store.commit("latestProducts");
-    },
-    mostExpProducts() {
-      this.$store.commit("mostExpProducts");
-    },
-
-    mostViewed() {
-      this.$store.commit("viewedProducts");
-    },
-  },
-  beforeMount() {
-    this.callAllProductsAction();
-  },
+ 
+  }
 };
 </script>
 <style>

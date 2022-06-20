@@ -2,30 +2,30 @@
   <div class="filterContainer">
     <input type="text" placeholder="عنوان" />
     <select name="categ">
-      <option
+      <!-- <option
         v-for="(item, index) in call4ProductsGetters"
         :key="index"
         :value="index"
       >
         {{ item }}
-      </option>
+      </option> -->
     </select>
   </div>
 </template>
 <script>
 export default {
   computed: {
-    call4ProductsGetters() {
-      return this.$store.getters.getAllCategories;
-    },
+    // call4ProductsGetters() {
+    //   return this.$store.getters.getAllCategories;
+    // },
   },
   methods: {
-    callAllProductsAction() {
-      this.$store.dispatch("callApiForProducts");
-    },
+    // callAllProductsAction() {
+    //   this.$store.dispatch("callApiForProducts");
+    // },
   },
   beforeMount() {
-    this.callAllProductsAction();
+    // this.callAllProductsAction();
   },
   data() {
     return {
