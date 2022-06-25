@@ -3,7 +3,11 @@ import axios from "axios";
 
 export default createStore({
   state: {
+    cartQuant: 3,
+    productQuant: 0,
+    currentColor: null,
     products: [],
+    productDetail: [],
     dufultVars: {
       isLoading: false,
       currentPage: 1,
@@ -19,6 +23,15 @@ export default createStore({
     getIsLoading(state) {
       return state.dufultVars.isLoading;
     },
+    getProductDetail(state) {
+      return state.productDetail;
+    },
+    getCartQuant(state) {
+      return state.cartQuant;
+    },
+    getProductQuant(state) {
+      return state.productQuant;
+    },
   },
   // mutation commit
   // action dispatch
@@ -30,8 +43,23 @@ export default createStore({
     changeCurrentPage(state, page) {
       state.dufultVars.currentPage = page;
     },
-    changeIsLoading(state, isLoading) {
-      state.dufultVars.isLoading = isLoading;
+    changeIsLoading(state) {
+      state.dufultVars.isLoading = !state.dufultVars.isLoading;
+    },
+    changeProductDetail(state, productDetail) {
+      state.productDetail = productDetail;
+    },
+    setCartQuant(state, numb) {
+      state.cartQuant += numb;
+    },
+    setCurrentcolorQuant(state, numb) {
+      state.productQuant = state.productDetail.varieties[numb].quantity;
+      state.currentColor = numb;
+    },
+    AddProcutToCart(state) {
+      state.productDetail.varieties[state.currentColor].quantity--;
+      state.productQuant--;
+      state.cartQuant++;
     },
     // toggleAvailability(state, product) {
     //   const index = state.products.findIndex((v) => v.id === product.id);
@@ -73,13 +101,18 @@ export default createStore({
   },
   actions: {
     async callApiForProducts({ commit }, page) {
-      commit("changeIsLoading", true);
+      commit("changeIsLoading");
       const { data } = await axios.get(
-        `https://api.elinorboutique.com/v1/front/products?page=${page}${""}`
+        `https://api.elinorboutique.com/v1/front/products?page=${page}`
       );
       commit("setProducts", data.data.products.data);
-      commit("changeIsLoading", false);
-      
+      commit("changeIsLoading");
+    },
+    async callProductDetailFromApi({ commit }, id) {
+      const { data } = await axios.get(
+        `https://api.elinorboutique.com/v1/front/products/${id}`
+      );
+      commit("changeProductDetail", data.data.product);
     },
     // showLatestProductsAction({ commit }) {
     //   commit("latestProducts");

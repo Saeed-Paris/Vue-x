@@ -1,7 +1,7 @@
 <template>
-  <div class="productListContainer">
+  <div class="productListContainer"> 
     <div>
-      <div class="btnList">
+      <div class="btnList"> 
         <button @click="showLatestProducts()">جدید ترین ها</button>
         <button @click="mostExpProducts()">گران ترین ها</button>
         <button @click="mostViewed()">محبوب ترین</button>
@@ -10,7 +10,7 @@
         <button
           v-for="index in 7"
           :key="index"
-          :disabled="index == 4"
+          :disabled="index == 4 || isLoading"
           v-show="index - 4 + currentPage > 0"
           @click="changePage(index - 4)"
         >
@@ -19,11 +19,15 @@
       </div>
     </div>
     <div class="productList">
-      <router-link to="" v-for="(product, index) in productList" :key="index">
-        <img :class="{ blur: isLoading }" :src="product.major_image.url" />
-        <p><span>esm: </span>{{ product.title }}</p>
-        <p><span>gheymat: </span>{{ product.price }}</p>
-      </router-link>
+      <div v-for="(product, index) in productList" :key="index">
+        <router-link
+          :to="{ name: 'details', params: { productId: product.id } }"
+        >
+          <img :class="{ blur: isLoading }" :src="product.major_image.url" />
+          <p><span>esm: </span>{{ product.title }}</p>
+          <p><span>gheymat: </span>{{ product.price }}</p>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -46,7 +50,7 @@ export default {
       this.$store.dispatch("callApiForProducts", this.currentPage);
     },
   },
-  onMount() {
+  beforeMount() {
     this.$store.dispatch("callApiForProducts", this.currentPage);
   },
 };
