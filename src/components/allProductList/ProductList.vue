@@ -23,7 +23,7 @@
         <router-link
           :to="{ name: 'details', params: { productId: product.id } }"
         >
-          <img :class="{ blur: isLoading }" :src="product.major_image.url" />
+          <img :class="{ blur: isLoading }" :src="product.major_image.url" /> 
           <p><span>esm: </span>{{ product.title }}</p>
           <p><span>gheymat: </span>{{ product.price }}</p>
         </router-link>
@@ -38,7 +38,7 @@ export default {
       return this.$store.getters.getAllProducts;
     },
     currentPage() {
-      return this.$store.getters.getCurrentPage;
+      return this.$store.getters.getCurrentPage; 
     },
     isLoading() {
       return this.$store.getters.getIsLoading;

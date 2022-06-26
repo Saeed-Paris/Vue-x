@@ -1,55 +1,141 @@
 <template>
   <div class="btnGorup">
-    <ProductColorBtn
-      v-for="(item, index) in varieties"
-      :key="index"
-      :color="item"
-      :class="{ selectedClass: activeBtn == index }"
-      @click="changeColor(index)"
-    />
+    <div class="PDCB">
+      <ProductColorBtn
+        v-for="(item, index) in productColors"
+        :key="index"
+        :colorName="
+          varieties[index * (varieties.length / productColors.length)].color
+            .name
+        "
+        :color="item"
+        :class="{
+          selectedClass: colorIndex == index,
+        }"
+        @click="changeColor(index)"
+      />
+    </div>
+    <div class="PDSB">
+      <ProductSizeBtn
+        v-for="(itm, index) in productSizes"
+        :key="index"
+        :size="itm"
+        :class="{
+          selectedClass: sizeIndex == index,
+          notAvail:
+            !varieties[
+              index +
+                colorIndex * (this.varieties.length / this.productColors.length)
+            ].quantity,
+        }"
+        @click="showQuant(index)"
+      />
+    </div>
   </div>
   <p>Tedad : {{ ProductQuant }}</p>
 </template>
 <script>
 import ProductColorBtn from "@/components/productDetail/ProductColorBtn.vue";
+import ProductSizeBtn from "@/components/productDetail/ProductSizeBtn.vue";
+import { useStore } from "vuex";
+import { computed, onMounted} from "vue";
 export default {
   props: {
     varieties: Array,
   },
   data() {
     return {
-      activeBtn: 0,
+      sizeIndex: 0,
+      colorIndex: 0,
     };
   },
-  computed: {
-    ProductQuant() {
-      if (this.$store.getters.getProductQuant>0) {
-        return this.$store.getters.getProductQuant;
-      }
-      return "نا موجود";
-    },
-  },
+
   methods: {
     changeColor(indx) {
-      this.activeBtn = indx;
-      this.$store.commit("setCurrentcolorQuant", indx);
+      this.colorIndex = indx;
+
+      this.$store.commit(
+        "setCurrentcolorQuant",
+        this.colorIndex * (this.varieties.length / this.productColors.length) +
+          this.sizeIndex
+      );
+    },
+    showQuant(index) {
+      this.sizeIndex = index;
+
+      this.$store.commit(
+        "setCurrentcolorQuant",
+        this.colorIndex * (this.varieties.length / this.productColors.length) +
+          this.sizeIndex
+      );
     },
   },
   components: {
     ProductColorBtn,
+    ProductSizeBtn,
   },
   beforeMount() {
     this.$store.commit("setCurrentcolorQuant", 0);
+    const uniqueColors = [
+      ...new Set(this.varieties.map((obj) => obj.color.code)),
+    ];
+    this.$store.commit("setProductAllColors", uniqueColors);
+    const uniqueSizes = [
+      ...new Set(this.varieties.map((obj) => obj.attributes[0].pivot.value)),
+    ];
+    this.$store.commit("setProductAllSizes", uniqueSizes);
   },
+  setup() {
+  //   computed: {
+  //   ProductQuant() {
+  //     if (this.$store.getters.getProductQuant > 0) {
+  //       return this.$store.getters.getProductQuant;
+  //     }
+  //     return "نا موجود";
+  //   },
+  //   productSizes() {
+  //     return this.$store.getters.getProductAllSizes;
+  //   },
+  //   productColors() {
+  //     return this.$store.getters.getProductAllColors;
+  //   },
+  // },
+  ProductQuant = computed(() =>{
+    return 
+  }) 
+}
 };
+
 </script>
 <style scoped>
 .btnGorup {
   margin: 0 auto;
   display: flex;
+  justify-content: center;
+  flex-direction: column;
   flex-wrap: wrap;
+  gap: 50px;
 }
 .selectedClass {
-  border: 1px solid red;
+  border: 4px solid red;
+}
+.PDSB {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.notAvail {
+  pointer-events: none;
+  opacity: 0.3;
+}
+.PDSB button {
+  width: 30px;
+  height: 30px;
+}
+.PDCB {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 </style>

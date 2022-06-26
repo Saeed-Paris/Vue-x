@@ -8,6 +8,8 @@ export default createStore({
     currentColor: null,
     products: [],
     productDetail: [],
+    productAllSizes:null,
+    productAllColors: null,
     dufultVars: {
       isLoading: false,
       currentPage: 1,
@@ -32,6 +34,12 @@ export default createStore({
     getProductQuant(state) {
       return state.productQuant;
     },
+    getProductAllColors(state) {
+      return state.productAllColors;
+    },
+    getProductAllSizes(state){
+      return state.productAllSizes;
+    }
   },
   // mutation commit
   // action dispatch
@@ -54,13 +62,21 @@ export default createStore({
     },
     setCurrentcolorQuant(state, numb) {
       state.productQuant = state.productDetail.varieties[numb].quantity;
-      state.currentColor = numb;
+      if(state.productDetail.varieties[numb].color){ state.currentColor = numb;}
+     
     },
     AddProcutToCart(state) {
       state.productDetail.varieties[state.currentColor].quantity--;
       state.productQuant--;
       state.cartQuant++;
     },
+    setProductAllColors(state, arr) {
+      state.productAllColors = arr;
+    },
+    setProductAllSizes(state, arr) {
+      state.productAllSizes = arr;
+    },
+    
     // toggleAvailability(state, product) {
     //   const index = state.products.findIndex((v) => v.id === product.id);
     //   state.products[index].isAvailable = !state.products[index].isAvailable;
@@ -114,6 +130,7 @@ export default createStore({
       );
       commit("changeProductDetail", data.data.product);
     },
+
     // showLatestProductsAction({ commit }) {
     //   commit("latestProducts");
     // },

@@ -1,7 +1,7 @@
 <template>
-  <div  @click="qwe" :style="{ 'background-color': color.color.code }">
+  <div  @click="qwe" :style="{ 'background-color': color }">
     <button>
-      {{ color.color.name }} 
+      {{ colorName}}  
     </button>
   </div>
  
@@ -9,7 +9,8 @@
 <script>
 export default {
   props: {
-    color: Object,
+    colorName: String,
+    color:String
   },
 
 };
