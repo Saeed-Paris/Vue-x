@@ -1,6 +1,6 @@
 <template>
   <div class="btnGorup">
-    <div class="PDCB">
+    <div class="PDCB"> 
       <ProductColorBtn
         v-for="(item, index) in productColors"
         :key="index"

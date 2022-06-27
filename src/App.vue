@@ -4,18 +4,27 @@
       ><span class="cartNumb">{{ cartQuant }}</span
       ><img src="@/assets/images/cart.png" alt=""
     /></router-link>
-    <router-link to="/">
- HOME
-    </router-link>
-  </div>  
+    <router-link to="/"> HOME </router-link>
+  </div>
   <router-view />
 </template>
 <script>
+import { computed, onMounted, ref } from "vue";
+import { useStore } from "vuex";
 export default {
+  created() {
+    self = this;
+  },
+  setup() {
+    const store = useStore();
+    let cartQuant = ref(null);
+    cartQuant = computed(() => {
+      return store.getters.getCartQuant;
+    });
+    onMounted(() => {});
+  },
   computed: {
-    cartQuant() {
-      return this.$store.getters.getCartQuant;
-    },
+    cartQuant() {},
   },
 };
 </script>

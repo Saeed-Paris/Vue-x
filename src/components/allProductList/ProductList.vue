@@ -1,7 +1,7 @@
 <template>
-  <div class="productListContainer"> 
+  <div class="productListContainer">
     <div>
-      <div class="btnList"> 
+      <div class="btnList">
         <button @click="showLatestProducts()">جدید ترین ها</button>
         <button @click="mostExpProducts()">گران ترین ها</button>
         <button @click="mostViewed()">محبوب ترین</button>
@@ -23,35 +23,50 @@
         <router-link
           :to="{ name: 'details', params: { productId: product.id } }"
         >
-          <img :class="{ blur: isLoading }" :src="product.major_image.url" /> 
+          <img :class="{ blur: isLoading }" :src="product.major_image.url" />
           <p><span>esm: </span>{{ product.title }}</p>
           <p><span>gheymat: </span>{{ product.price }}</p>
         </router-link>
       </div>
     </div>
-  </div>
+  </div> 
 </template>
 <script>
+import { computed, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+let self;
+
 export default {
-  computed: {
-    productList() {
-      return this.$store.getters.getAllProducts;
-    },
-    currentPage() {
-      return this.$store.getters.getCurrentPage; 
-    },
-    isLoading() {
-      return this.$store.getters.getIsLoading;
-    },
+  created() {
+    self = this;
   },
-  methods: {
-    changePage(numb) {
-      this.$store.commit("changeCurrentPage", (this.currentPage += numb));
-      this.$store.dispatch("callApiForProducts", this.currentPage);
-    },
-  },
-  beforeMount() {
-    this.$store.dispatch("callApiForProducts", this.currentPage);
+  setup() {
+    const store = useStore();
+    let productList = ref(null);
+    let currentPage = ref(null);
+    let isLoading = ref(null);
+    productList = computed(() => {
+      return store.getters.getAllProducts;
+    });
+    currentPage = computed(() => {
+      return store.getters.getCurrentPage;
+    });
+    isLoading = computed(() => {
+      return store.getters.getIsLoading;
+    });
+    function changePage(numb) {
+      store.commit("changeCurrentPage", self.currentPage + numb);
+      store.dispatch("callApiForProducts", self.currentPage);
+    }
+    onMounted(() => {
+      store.dispatch("callApiForProducts", self.currentPage);
+    });
+    return {
+      productList,
+      currentPage,
+      isLoading,
+      changePage,
+    };
   },
 };
 </script>

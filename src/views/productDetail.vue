@@ -1,13 +1,15 @@
 <template>
   <div class="PDContainer">
-    <div><ProductImage :imageUrl="productDetail.major_image.url" /></div>
-    <div>   
+    <!-- <div><ProductImage :imageUrl="productDetail.major_image.url" /></div> -->
+    <div> 
+      <ProductSuptitle :categories ="productDetail.categories" />  
       <ProductTitle :title="productDetail.title" />
-    <ProductPrice :price="productDetail.price" />
+      <ProductPrice :price="productDetail.price" /> 
       <ProductColors :varieties="productDetail.varieties" />
-      <!-- move quantity to Product Colors cuz its based on which color do we want --> 
-      <AddToCart />  
+      <!-- move quantity to Product Colors cuz its based on which color do we want -->
+      <AddToCart />
       <SpecificationsPart :Specifications="productDetail.Specifications" />
+      {{productId}}
     </div>
   </div>
 </template>
@@ -17,39 +19,48 @@ import ProductSuptitle from "@/components/productDetail/ProductSuptitle.vue";
 import ProductTitle from "@/components/productDetail/ProductTitle.vue";
 import ProductPrice from "@/components/productDetail/ProductPrice.vue";
 import ProductColors from "@/components/productDetail/ProductColors.vue";
-
 import AddToCart from "@/components/productDetail/AddToCart.vue";
 import SpecificationsPart from "@/components/productDetail/SpecificationsPart.vue";
+import { computed, onMounted, ref } from "vue";
+import { useStore } from "vuex";
+let self;
 export default {
+  created() {
+    self = this;
+  },
+
+  setup() {
+    const store = useStore();
+    let productDetail = ref(null);
+    productDetail = computed(() => {
+      return store.getters.getProductDetail;
+    });
+    function callProductDetail() {
+      store.dispatch("callProductDetailFromApi", self.productId);
+    }
+    onMounted(() => {
+      callProductDetail();
+    });
+    return {
+      productDetail,
+      callProductDetail,
+    };
+  },
+
   props: ["productId"],
   components: {
-    ProductImage,
-    ProductSuptitle,
-    ProductTitle,
     ProductPrice,
+    // ProductImage,
+      ProductSuptitle,
+      ProductTitle,
     ProductColors,
-    AddToCart,
+     AddToCart,
     SpecificationsPart,
-  },
-  beforeMount() {
-    //     let x = this.productId.split("-");
-    //     alert(x[x.length - 1]);
-    this.$store.dispatch("callProductDetailFromApi", this.productId);
-  },
-  computed: {
-    productDetail() {
-      return this.$store.getters.getProductDetail;
-    },
-  },
-  methods: {
-    callProductDetail() {
-      this.$store.dispatch("callProductDetailFromApi", this.productId);
-    },
   },
 };
 </script>
 <style scoped>
-.PDContainer{
+.PDContainer {
   width: 90%;
   margin: 0 auto;
   display: flex;
