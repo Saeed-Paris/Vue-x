@@ -8,7 +8,7 @@ export default createStore({
     currentColor: null,
     products: [],
     productDetail: [],
-    productAllSizes:null,
+    productAllSizes: null,
     productAllColors: null,
     dufultVars: {
       isLoading: false,
@@ -37,9 +37,9 @@ export default createStore({
     getProductAllColors(state) {
       return state.productAllColors;
     },
-    getProductAllSizes(state){
+    getProductAllSizes(state) {
       return state.productAllSizes;
-    }
+    },
   },
   // mutation commit
   // action dispatch
@@ -61,9 +61,12 @@ export default createStore({
       state.cartQuant += numb;
     },
     setCurrentcolorQuant(state, numb) {
-      state.productQuant = state.productDetail.varieties[numb].quantity;
-      if(state.productDetail.varieties[numb].color){ state.currentColor = numb;}
-     
+      if (state.productDetail.varieties[numb].quantity) {
+        state.productQuant = state.productDetail.varieties[numb].quantity;
+      }
+      if (state.productDetail.varieties[numb].color != null) {
+        state.currentColor = numb;
+      }
     },
     AddProcutToCart(state) {
       state.productDetail.varieties[state.currentColor].quantity--;
@@ -76,7 +79,10 @@ export default createStore({
     setProductAllSizes(state, arr) {
       state.productAllSizes = arr;
     },
-    
+    resetProductColorsSizes(state) {
+      state.productAllSizes = null;
+      state.productAllColors = null;
+    },
     // toggleAvailability(state, product) {
     //   const index = state.products.findIndex((v) => v.id === product.id);
     //   state.products[index].isAvailable = !state.products[index].isAvailable;

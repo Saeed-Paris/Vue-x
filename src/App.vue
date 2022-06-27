@@ -4,7 +4,10 @@
       ><span class="cartNumb">{{ cartQuant }}</span
       ><img src="@/assets/images/cart.png" alt=""
     /></router-link>
-  </div>
+    <router-link to="/">
+ HOME
+    </router-link>
+  </div>  
   <router-view />
 </template>
 <script>
@@ -24,7 +27,7 @@ export default {
 .header {
   position: relative;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   width: 80%;
   margin: 0 auto;
   margin-bottom: 30px;

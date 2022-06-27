@@ -5,8 +5,8 @@
         v-for="(item, index) in productColors"
         :key="index"
         :colorName="
-          varieties[index * (varieties.length / productColors.length)].color
-            .name
+          varieties[index * (this.varieties.length / this.productColors.length)]
+            .color.name
         "
         :color="item"
         :class="{
@@ -25,7 +25,7 @@
           notAvail:
             !varieties[
               index +
-                colorIndex * (this.varieties.length / this.productColors.length)
+                colorIndex * (this.varieties.length / this.productSizes.length)
             ].quantity,
         }"
         @click="showQuant(index)"
@@ -37,8 +37,6 @@
 <script>
 import ProductColorBtn from "@/components/productDetail/ProductColorBtn.vue";
 import ProductSizeBtn from "@/components/productDetail/ProductSizeBtn.vue";
-import { useStore } from "vuex";
-import { computed, onMounted} from "vue";
 export default {
   props: {
     varieties: Array,
@@ -62,7 +60,6 @@ export default {
     },
     showQuant(index) {
       this.sizeIndex = index;
-
       this.$store.commit(
         "setCurrentcolorQuant",
         this.colorIndex * (this.varieties.length / this.productColors.length) +
@@ -74,38 +71,43 @@ export default {
     ProductColorBtn,
     ProductSizeBtn,
   },
-  beforeMount() {
+  // console.log(this.varieties[0].attributes[0])
+  mounted() {
+    this.$store.commit("resetProductColorsSizes");
     this.$store.commit("setCurrentcolorQuant", 0);
-    const uniqueColors = [
-      ...new Set(this.varieties.map((obj) => obj.color.code)),
-    ];
-    this.$store.commit("setProductAllColors", uniqueColors);
-    const uniqueSizes = [
-      ...new Set(this.varieties.map((obj) => obj.attributes[0].pivot.value)),
-    ];
-    this.$store.commit("setProductAllSizes", uniqueSizes);
+    // console.log(this.varieties[0].color)
+    // if(this.varieties[0].color != null){
+    //   console.log("salam")
+    // }
+    if (this.varieties[0].attributes[0]) {
+      const uniqueSizes = [
+        ...new Set(this.varieties.map((obj) => obj.attributes[0].pivot.value)),
+      ];
+      this.$store.commit("setProductAllSizes", uniqueSizes);
+    }
+    if (this.varieties[0].color != null) {
+      console.log("salam");
+      const uniqueColors = [
+        ...new Set(this.varieties.map((obj) => obj.color.code)),
+      ];
+      this.$store.commit("setProductAllColors", uniqueColors);
+    }
   },
-  setup() {
-  //   computed: {
-  //   ProductQuant() {
-  //     if (this.$store.getters.getProductQuant > 0) {
-  //       return this.$store.getters.getProductQuant;
-  //     }
-  //     return "نا موجود";
-  //   },
-  //   productSizes() {
-  //     return this.$store.getters.getProductAllSizes;
-  //   },
-  //   productColors() {
-  //     return this.$store.getters.getProductAllColors;
-  //   },
-  // },
-  ProductQuant = computed(() =>{
-    return 
-  }) 
-}
+  computed: {
+    ProductQuant() {
+      if (this.$store.getters.getProductQuant > 0) {
+        return this.$store.getters.getProductQuant;
+      }
+      return "نا موجود";
+    },
+    productSizes() {
+      return this.$store.getters.getProductAllSizes;
+    },
+    productColors() {
+      return this.$store.getters.getProductAllColors;
+    },
+  },
 };
-
 </script>
 <style scoped>
 .btnGorup {
