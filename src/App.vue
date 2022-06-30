@@ -11,6 +11,7 @@
 <script>
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+let self;
 export default {
   created() {
     self = this;
@@ -22,9 +23,9 @@ export default {
       return store.getters.getCartQuant;
     });
     onMounted(() => {});
-  },
-  computed: {
-    cartQuant() {},
+    return {
+      cartQuant,
+    };
   },
 };
 </script>

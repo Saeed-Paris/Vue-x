@@ -2,6 +2,7 @@
   <section class="APList">
     <ProductList />
     <FilterComp />
+    <Loader v-if="showLoader || innerFlag" />
   </section>
 </template>
 <script>
@@ -12,7 +13,6 @@ export default {
     FilterComp,
     ProductList,
   },
- 
 };
 </script>
 <style>
