@@ -24,8 +24,9 @@
           selectedClass: sizeIndex == index,
           notAvail:
             !varieties[
-              index +
-                colorIndex * (varieties.length / productSizes.length)
+              this.colorIndex *
+                (this.varieties.length / this.productColors.length) +
+                index
             ].quantity,
         }"
         @click="showQuant(index)"
