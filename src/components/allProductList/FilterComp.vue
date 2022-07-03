@@ -1,16 +1,5 @@
 <template>
-  <div class="filterContainer">
-    <input type="text" placeholder="عنوان" />
-    <select name="categ">
-      <!-- <option
-        v-for="(item, index) in call4ProductsGetters"
-        :key="index"
-        :value="index"
-      >
-        {{ item }}
-      </option> -->
-    </select>
-  </div>
+
 </template>
 <script>
 export default {

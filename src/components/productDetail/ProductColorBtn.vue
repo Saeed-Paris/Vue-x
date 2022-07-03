@@ -1,5 +1,5 @@
 <template>
-  <div  @click="qwe" :style="{ 'background-color': color }">
+  <div  :style="{ 'background-color': color }">
     <button>
       {{ colorName}}  
     </button>

@@ -5,7 +5,7 @@
         v-for="(item, index) in productColors"
         :key="index"
         :colorName="
-          varieties[index * (this.varieties.length / this.productColors.length)]
+          varieties[index * (varieties.length / productColors.length)]
             .color.name
         "
         :color="item"
@@ -25,7 +25,7 @@
           notAvail:
             !varieties[
               index +
-                colorIndex * (this.varieties.length / this.productSizes.length)
+                colorIndex * (varieties.length / productSizes.length)
             ].quantity,
         }"
         @click="showQuant(index)"

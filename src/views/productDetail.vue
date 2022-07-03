@@ -1,15 +1,15 @@
 <template>
-  <div class="PDContainer">
-    <!-- <div><ProductImage :imageUrl="productDetail.major_image.url" /></div> -->
-    <div> 
-      <ProductSuptitle :categories ="productDetail.categories" />  
+  <div class="PDContainer" v-if="flag">
+    <div><ProductImage :imageUrl="productDetail.major_image.url" /></div>
+    <div>
+      <ProductSuptitle :categories="productDetail.categories" />
       <ProductTitle :title="productDetail.title" />
-      <ProductPrice :price="productDetail.price" /> 
+      <ProductPrice :price="productDetail.price" />
       <ProductColors :varieties="productDetail.varieties" />
       <!-- move quantity to Product Colors cuz its based on which color do we want -->
       <AddToCart />
       <SpecificationsPart :Specifications="productDetail.Specifications" />
-      {{productId}}
+      {{ productId }}
     </div>
   </div>
 </template>
@@ -32,10 +32,15 @@ export default {
   setup() {
     const store = useStore();
     let productDetail = ref(null);
+    let flag = ref(false);
     productDetail = computed(() => {
       return store.getters.getProductDetail;
     });
+    flag = computed(() => {
+      return store.getters.getFlag;
+    });
     function callProductDetail() {
+      
       store.dispatch("callProductDetailFromApi", self.productId);
     }
     onMounted(() => {
@@ -44,17 +49,18 @@ export default {
     return {
       productDetail,
       callProductDetail,
+      flag,
     };
   },
 
   props: ["productId"],
   components: {
     ProductPrice,
-    // ProductImage,
-      ProductSuptitle,
-      ProductTitle,
+    ProductImage,
+    ProductSuptitle,
+    ProductTitle,
     ProductColors,
-     AddToCart,
+    AddToCart,
     SpecificationsPart,
   },
 };

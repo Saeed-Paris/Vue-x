@@ -6,25 +6,43 @@ export default createStore({
     cartQuant: 3,
     productQuant: 0,
     currentColor: null,
-    products: [],
-    productDetail: [],
+    products: null,
+    productDetail: null,
     productAllSizes: null,
     productAllColors: null,
-    dufultVars: {
-      isLoading: false,
+    defultVars: {
       currentPage: 1,
+      loader: true,
+      flag: false,
     },
+    // object{
+    title: "",
+    sortType: null,
+    minPrice: 0,
+    maxPrice: 0,
+    available: false,
+    // }
   },
   getters: {
+    getFlag(state) {
+      return state.defultVars.flag;
+    },
+    getTitle(state) {
+      return state.title;
+    },
+    getSortType(state) {
+      return state.sortType;
+    },
+    getLoader(state) {
+      return state.defultVars.loader;
+    },
     getAllProducts(state) {
       return state.products;
     },
     getCurrentPage(state) {
-      return state.dufultVars.currentPage;
+      return state.defultVars.currentPage;
     },
-    getIsLoading(state) {
-      return state.dufultVars.isLoading;
-    },
+
     getProductDetail(state) {
       return state.productDetail;
     },
@@ -44,16 +62,29 @@ export default createStore({
   // mutation commit
   // action dispatch
   mutations: {
+    resetProductDetail(state){
+state.productDetail=null
+    },
+    setAvailability(state, bool) {
+      state.available = bool;
+    },
+    setTitle(state, val) {
+      state.title = val;
+    },
+    setSortType(state, val) {
+      state.sortType = val;
+    },
+    toggleLoaderVisibilty(state, bool) {
+      state.defultVars.loader = bool;
+    },
     setProducts(state, newProducts) {
       // for API
       state.products = newProducts;
     },
     changeCurrentPage(state, page) {
-      state.dufultVars.currentPage = page;
+      state.defultVars.currentPage = page;
     },
-    changeIsLoading(state) {
-      state.dufultVars.isLoading = !state.dufultVars.isLoading;
-    },
+
     changeProductDetail(state, productDetail) {
       state.productDetail = productDetail;
     },
@@ -82,6 +113,9 @@ export default createStore({
     resetProductColorsSizes(state) {
       state.productAllSizes = null;
       state.productAllColors = null;
+    },
+    setFlag(state, bool) {
+      state.defultVars.flag = bool;
     },
     // toggleAvailability(state, product) {
     //   const index = state.products.findIndex((v) => v.id === product.id);
@@ -122,19 +156,35 @@ export default createStore({
     // },
   },
   actions: {
-    async callApiForProducts({ commit }, page) {
-      commit("changeIsLoading");
+    async callApiForProducts({ commit, state }) {
       const { data } = await axios.get(
-        `https://api.elinorboutique.com/v1/front/products?page=${page}`
+        `https://api.elinorboutique.com/v1/front/products?${
+          state.sortType ? "&sort=" + state.sortType : ""
+        }${state.title ? "&title=" + state.title : ""}${
+          state.minPrice != 0 ? "&min_price=" + state.minPrice : ""
+        }${state.maxPrice ? "&max_price=" + state.maxPrice : ""}${
+          state.available ? "&available=" + state.available : ""
+        }${
+          state.defultVars.currentPage
+            ? "&page=" + state.defultVars.currentPage
+            : ""
+        } 
+`
+
+        // title: "",
+        // sortType: null,
+        // minPrice: 0,
+        // maxPrice: 0,
+        // available: 0,
       );
       commit("setProducts", data.data.products.data);
-      commit("changeIsLoading");
     },
     async callProductDetailFromApi({ commit }, id) {
       const { data } = await axios.get(
         `https://api.elinorboutique.com/v1/front/products/${id}`
       );
       commit("changeProductDetail", data.data.product);
+      commit("setFlag", true);
     },
 
     // showLatestProductsAction({ commit }) {
