@@ -58,6 +58,11 @@ export default createStore({
     getProductAllSizes(state) {
       return state.productAllSizes;
     },
+    getCurrentColor(state){
+      return state.currentColor
+    } , getCurrentSize(state){
+      return state.currents
+    }
   },
   // mutation commit
   // action dispatch
