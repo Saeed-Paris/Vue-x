@@ -4,12 +4,12 @@
     <div>
       <ProductSuptitle :categories="productDetail.categories" />
       <ProductTitle :title="productDetail.title" />
-      <ProductPrice :price="productDetail.price" />
+      <ProductPrice :price="productDetail.price" /> 
       <ProductColors :varieties="productDetail.varieties" />
       <!-- move quantity to Product Colors cuz its based on which color do we want -->
-      <AddToCart />
+      <AddToCart /> 
       <SpecificationsPart :Specifications="productDetail.Specifications" />
-      {{ productId }}
+ 
     </div>
   </div>
 </template>

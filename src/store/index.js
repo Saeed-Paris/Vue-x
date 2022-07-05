@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default createStore({
   state: {
-    cartQuant: 3,
+    cartQuant: [],
     productQuant: 0,
     currentColor: null,
     products: null,
@@ -91,18 +91,15 @@ state.productDetail=null
     setCartQuant(state, numb) {
       state.cartQuant += numb;
     },
-    setCurrentcolorQuant(state, numb) {
-      if (state.productDetail.varieties[numb].quantity) {
+    setCurrentcolorQuant(state, numb) { 
         state.productQuant = state.productDetail.varieties[numb].quantity;
-      }
-      if (state.productDetail.varieties[numb].color != null) {
         state.currentColor = numb;
-      }
     },
-    AddProcutToCart(state) {
+    AddProcutToCart(state,data) {
       state.productDetail.varieties[state.currentColor].quantity--;
       state.productQuant--;
-      state.cartQuant++;
+      state.cartQuant[state.cartQuant.length]={data};
+      
     },
     setProductAllColors(state, arr) {
       state.productAllColors = arr;
@@ -184,11 +181,11 @@ state.productDetail=null
         `https://api.elinorboutique.com/v1/front/products/${id}`
       );
       commit("changeProductDetail", data.data.product);
-      commit("setFlag", true);
+      commit("setFlag", true); 
     },
 
     // showLatestProductsAction({ commit }) {
-    //   commit("latestProducts");
+    //   commit("latestProducts"); 
     // },
     // mostExpProductsAction({ commit }) {
     //   commit("mostExpProducts");

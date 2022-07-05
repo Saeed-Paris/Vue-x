@@ -53,7 +53,7 @@ export default {
     changeColor(indx) {
       this.colorIndex = indx;
 
-      this.$store.commit(
+      this.$store.commit( 
         "setCurrentcolorQuant",
         this.colorIndex * (this.varieties.length / this.productColors.length) +
           this.sizeIndex

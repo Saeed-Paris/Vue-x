@@ -7,11 +7,22 @@
   </button>
 </template>
 <script>
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 export default {
-  methods: {
-    AddCartFunc() {
-      this.$store.commit("AddProcutToCart");
-    },
+  setup() {
+    const store = useStore();
+    let CurrentProduct = ref(null);
+    CurrentProduct = computed(() => {
+      return store.getters.productDetail;
+    });
+    function AddCartFunc() {
+     store.commit("AddProcutToCart", CurrentProduct);
+    }
+    return {
+      CurrentProduct,
+      AddCartFunc,
+    };
   },
 };
 </script>
