@@ -158,7 +158,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 50px;
-}
+} 
 .btnContainer button {
   padding: 3px 10px;
 }
