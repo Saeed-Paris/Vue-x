@@ -89,7 +89,7 @@ export default {
     onMounted(() => {
       store.commit("resetProductColorsSizes");
       store.commit("setCurrentcolorQuant", 0);
-
+      
       if (self.varieties[0].attributes[0]) {
         const uniqueSizes = [
           ...new Set(
@@ -160,6 +160,7 @@ export default {
 .PDCB {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 </style>

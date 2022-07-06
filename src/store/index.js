@@ -10,6 +10,7 @@ export default createStore({
     productDetail: null,
     productAllSizes: null,
     productAllColors: null,
+    categories: null,
     defultVars: {
       currentPage: 1,
       loader: true,
@@ -24,6 +25,9 @@ export default createStore({
     // }
   },
   getters: {
+    getCategories(state) {
+      return state.categories;
+    },
     getFlag(state) {
       return state.defultVars.flag;
     },
@@ -67,6 +71,9 @@ export default createStore({
   // mutation commit
   // action dispatch
   mutations: {
+    setCategory(state, data) {
+      state.categories = data;
+    },
     resetProductDetail(state) {
       state.productDetail = null;
     },
@@ -103,8 +110,7 @@ export default createStore({
     AddProcutToCart(state, data) {
       state.productDetail.varieties[state.currentColor].quantity--;
       state.productQuant--;
-      // state.cartQuant[state.cartQuant.length] =  data;
-      state.cartQuant.push([data]);
+      state.cartQuant[state.cartQuant.length] = data;
     },
     setProductAllColors(state, arr) {
       state.productAllColors = arr;
@@ -160,8 +166,8 @@ export default createStore({
   actions: {
     async callApiForProducts({ commit, state }) {
       const { data } = await axios.get(
-        `https://api.elinorboutique.com/v1/front/products?${
-          state.sortType ? "&sort=" + state.sortType : ""
+        `https://api.atlasmode.ir/v1/front/products?${
+          state.sortType ? "sort=" + state.sortType : ""
         }${state.title ? "&title=" + state.title : ""}${
           state.minPrice != 0 ? "&min_price=" + state.minPrice : ""
         }${state.maxPrice ? "&max_price=" + state.maxPrice : ""}${
@@ -188,7 +194,13 @@ export default createStore({
       commit("changeProductDetail", data.data.product);
       commit("setFlag", true);
     },
-
+    async callHomeDataFromApi({ commit }) {
+      const { data } = await axios.get(
+        `https://api.atlasmode.ir/v1/front/home`
+      );
+      commit("setCategory", data.data.response.categories);
+      commit("setFlag", true);
+    },
     // showLatestProductsAction({ commit }) {
     //   commit("latestProducts");
     // },

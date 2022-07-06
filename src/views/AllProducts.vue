@@ -30,7 +30,7 @@
           <router-link
             :to="{ name: 'details', params: { productId: product.id } }"
           >
-            <img :src="product.major_image.url" />
+            <!-- <img :src="product.major_image.url" /> -->
             <p><span>esm: </span>{{ product.title }}</p>
             <p><span>gheymat: </span>{{ product.price }}</p>
           </router-link>
@@ -38,8 +38,26 @@
       </div>
     </div>
     <div class="filterContainer">
+      <div>
+        <ul>
+          <li
+            @click="listFunc(i)"
+            v-for="(item, i) in categories"
+            :key="i"
+            :class="{ activeZirlist: zirListItemsflag }"
+          >
+            {{ item.title }}
+            <ul v-show="zirListItemsflag == i">
+              <li @click="callApi(ind)" v-for="(zirItem, ind) in item.children" :key="ind">
+                {{ zirItem.title }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
       <input type="text" v-model="title" />
-      <p>{{ title }}</p>
+
       <div>
         <p>Only Available</p>
         <label class="switch">
@@ -67,9 +85,12 @@ export default {
     const store = useStore();
     let title = ref("");
     let productList = ref(null);
+    let zirListItemsflag = ref(null);
     let toggleValue = ref(false);
     let loader = ref(null);
     let currentPage = ref(null);
+    let categories = ref(null);
+
     productList = computed(() => {
       return store.getters.getAllProducts;
     });
@@ -80,6 +101,10 @@ export default {
     loader = computed(() => {
       return store.getters.getLoader;
     });
+    categories = computed(() => {
+      return store.getters.getCategories;
+    });
+
     function changePage(numb) {
       store.commit("toggleLoaderVisibilty", true);
       store.commit("changeCurrentPage", currentPage.value + numb);
@@ -101,6 +126,15 @@ export default {
       store.commit("changeCurrentPage", 1);
       store.dispatch("callApiForProducts");
     }
+    function callApi(numb){
+      store.commit
+    }
+    function listFunc(index) {
+      if (zirListItemsflag.value != index) {
+        return (zirListItemsflag.value = index);
+      }
+      zirListItemsflag.value = null;
+    }
     watch(productList, (newVal) => {
       if (newVal) {
         store.commit("toggleLoaderVisibilty", false);
@@ -108,11 +142,11 @@ export default {
     });
     onMounted(() => {
       store.commit("setFlag", false);
-      store.commit("setProductAllSizes" , null)
+      store.commit("setProductAllSizes", null);
       store.commit("setProductAllColors", null);
       store.commit("resetProductDetail");
       store.dispatch("callApiForProducts", 1);
-  
+      store.dispatch("callHomeDataFromApi");
     });
     return {
       loader,
@@ -124,6 +158,9 @@ export default {
       filterAll,
       toggleValue,
       toggle,
+      categories,
+      listFunc,
+      zirListItemsflag,callApi
     };
   },
 };
@@ -157,7 +194,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 50px;
-} 
+}
 .btnContainer button {
   padding: 3px 10px;
 }
@@ -168,7 +205,16 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.filterContainer li {
+  list-style-type: none;
+  padding: 10px 0 ;
+}
+.filterContainer li li{
+  color: red;
+  position: relative;
+  right: 50px;
 
+}
 /* copy */
 .switch {
   position: relative;

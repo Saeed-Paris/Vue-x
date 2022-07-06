@@ -36,27 +36,27 @@ export default {
     });
     function AddCartFunc() {
       let obj = {};
-      obj.name = CurrentProduct.value.title;
+      obj.name = "" + CurrentProduct.value.title;
       if (CurrentProduct.value.varieties[currentColor.value].color) {
         obj.color =
-          CurrentProduct.value.varieties[currentColor.value].color.name;
+          "" + CurrentProduct.value.varieties[currentColor.value].color.name;
       }
 
       if (productAllSizes.value) {
         obj.size =
+          "" +
           productAllSizes.value[
             currentColor.value % productAllSizes.value.length
           ];
       } else {
-        obj.size = null;
+        obj.size = "" + null;
       }
-      obj.price = CurrentProduct.value.price;
-      obj.image = CurrentProduct.value.major_image.url;
+      obj.price = "" + CurrentProduct.value.price;
+      obj.image = "" + CurrentProduct.value.major_image.url;
       // console.log(obj);
-
+      self.$cookies.set("Cart", cartQuant.value);
       store.commit("AddProcutToCart", obj);
-      self.$cookies.set("Cart",cartQuant.value);
-      console.log(cartQuant.value)
+       console.log(cartQuant.value);
     }
     onMounted(() => {});
     //   function Car(name, size, color, price, discount) {
