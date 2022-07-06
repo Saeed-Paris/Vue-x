@@ -1,9 +1,11 @@
 <template>
   <div class="header">
     <router-link to="/cart"
-      ><span class="cartNumb">{{ cartQuant }}</span
-      ><img src="@/assets/images/cart.png" alt=""
-    /></router-link>
+      ><span class="cartNumb"></span
+      ><img src="@/assets/images/cart.png" alt="" />{{
+        cartQuant.length
+      }}</router-link
+    >
     <router-link to="/"> HOME </router-link>
   </div>
   <router-view />
@@ -22,7 +24,9 @@ export default {
     cartQuant = computed(() => {
       return store.getters.getCartQuant;
     });
-    onMounted(() => {});
+    onMounted(() => {
+        console.log(self.$cookies.get("Cart"));
+    });
     return {
       cartQuant,
     };

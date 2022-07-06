@@ -7,8 +7,9 @@
   </button>
 </template>
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { useCookies } from "vue3-cookies";
 let self;
 export default {
   created() {
@@ -16,37 +17,60 @@ export default {
   },
   setup() {
     const store = useStore();
+    const { cookies } = useCookies();
     let CurrentProduct = ref(null);
     let currentColor = ref(null);
-    let currentSize = ref(null);
+    let productAllSizes = ref(null);
+    let cartQuant = ref(null);
     CurrentProduct = computed(() => {
       return store.getters.getProductDetail;
     });
-    currentColor = computed(() => {
-      return store.getters.getProductDetail;
+    productAllSizes = computed(() => {
+      return store.getters.getProductAllSizes;
     });
-    currentSize = computed(() => {
-      return store.getters.getProductDetail;
+    currentColor = computed(() => {
+      return store.getters.getCurrentColor;
+    });
+    cartQuant = computed(() => {
+      return store.getters.getCartQuant;
     });
     function AddCartFunc() {
-      let obj = new Object();
+      let obj = {};
       obj.name = CurrentProduct.value.title;
-      obj.size = CurrentProduct.value.title;
-      obj.name = CurrentProduct.value.title;
-      console.log(obj);
+      if (CurrentProduct.value.varieties[currentColor.value].color) {
+        obj.color =
+          CurrentProduct.value.varieties[currentColor.value].color.name;
+      }
+
+      if (productAllSizes.value) {
+        obj.size =
+          productAllSizes.value[
+            currentColor.value % productAllSizes.value.length
+          ];
+      } else {
+        obj.size = null;
+      }
+      obj.price = CurrentProduct.value.price;
+      obj.image = CurrentProduct.value.major_image.url;
+      // console.log(obj);
+
       store.commit("AddProcutToCart", obj);
+      self.$cookies.set("Cart",cartQuant.value);
+      console.log(cartQuant.value)
     }
+    onMounted(() => {});
     //   function Car(name, size, color, price, discount) {
     //     let obj = new Object();
     //     obj.name = name;
     // store.commit("AddProcutToCart", obj.name);
     //   }
-
     return {
       CurrentProduct,
       AddCartFunc,
-      currentSize,
       currentColor,
+      productAllSizes,
+      cookies,
+      cartQuant,
     };
   },
 };

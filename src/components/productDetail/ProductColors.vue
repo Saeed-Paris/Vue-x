@@ -89,8 +89,7 @@ export default {
     onMounted(() => {
       store.commit("resetProductColorsSizes");
       store.commit("setCurrentcolorQuant", 0);
-      console.log(self.productSizes);
-      console.log(self.productColors);
+
       if (self.varieties[0].attributes[0]) {
         const uniqueSizes = [
           ...new Set(

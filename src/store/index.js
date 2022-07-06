@@ -42,7 +42,6 @@ export default createStore({
     getCurrentPage(state) {
       return state.defultVars.currentPage;
     },
-
     getProductDetail(state) {
       return state.productDetail;
     },
@@ -58,17 +57,18 @@ export default createStore({
     getProductAllSizes(state) {
       return state.productAllSizes;
     },
-    getCurrentColor(state){
-      return state.currentColor
-    } , getCurrentSize(state){
-      return state.currents
-    }
+    getCurrentColor(state) {
+      return state.currentColor;
+    },
+    getCurrentSize(state) {
+      return state.currents;
+    },
   },
   // mutation commit
   // action dispatch
   mutations: {
-    resetProductDetail(state){
-state.productDetail=null
+    resetProductDetail(state) {
+      state.productDetail = null;
     },
     setAvailability(state, bool) {
       state.available = bool;
@@ -96,15 +96,15 @@ state.productDetail=null
     setCartQuant(state, numb) {
       state.cartQuant += numb;
     },
-    setCurrentcolorQuant(state, numb) { 
-        state.productQuant = state.productDetail.varieties[numb].quantity;
-        state.currentColor = numb;
+    setCurrentcolorQuant(state, numb) {
+      state.productQuant = state.productDetail.varieties[numb].quantity;
+      state.currentColor = numb;
     },
-    AddProcutToCart(state,data) {
+    AddProcutToCart(state, data) {
       state.productDetail.varieties[state.currentColor].quantity--;
       state.productQuant--;
-      state.cartQuant[state.cartQuant.length]={data};
-      
+      // state.cartQuant[state.cartQuant.length] =  data;
+      state.cartQuant.push([data]);
     },
     setProductAllColors(state, arr) {
       state.productAllColors = arr;
@@ -186,11 +186,11 @@ state.productDetail=null
         `https://api.elinorboutique.com/v1/front/products/${id}`
       );
       commit("changeProductDetail", data.data.product);
-      commit("setFlag", true); 
+      commit("setFlag", true);
     },
 
     // showLatestProductsAction({ commit }) {
-    //   commit("latestProducts"); 
+    //   commit("latestProducts");
     // },
     // mostExpProductsAction({ commit }) {
     //   commit("mostExpProducts");

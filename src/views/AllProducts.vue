@@ -30,7 +30,7 @@
           <router-link
             :to="{ name: 'details', params: { productId: product.id } }"
           >
-            <!-- <img :src="product.major_image.url" /> -->
+            <img :src="product.major_image.url" />
             <p><span>esm: </span>{{ product.title }}</p>
             <p><span>gheymat: </span>{{ product.price }}</p>
           </router-link>
@@ -90,7 +90,6 @@ export default {
       store.commit("setTitle", title);
       store.commit("setAvailability", toggleValue.value ? 1 : 0);
       store.commit("changeCurrentPage", 1);
-      console.log(toggleValue.value ? 1 : 0);
       store.dispatch("callApiForProducts");
     }
     function toggle() {
@@ -108,12 +107,12 @@ export default {
       }
     });
     onMounted(() => {
-      
       store.commit("setFlag", false);
       store.commit("setProductAllSizes" , null)
       store.commit("setProductAllColors", null);
       store.commit("resetProductDetail");
       store.dispatch("callApiForProducts", 1);
+  
     });
     return {
       loader,
