@@ -53,17 +53,8 @@ export default {
       }
       obj.price = "" + CurrentProduct.value.price;
       obj.image = "" + CurrentProduct.value.major_image.url;
-      // console.log(obj);
-<<<<<<< HEAD
-      self.$cookies.set("Cart", cartQuant.value);
-      store.commit("AddProcutToCart", obj);
-       console.log(cartQuant.value);
-=======
-      console.log(cartQuant.value);
       store.commit("AddProcutToCart", obj);
       // self.$cookies.set("Cart", cartQuant.value);
-      console.log(cartQuant.value);
->>>>>>> Master
     }
     onMounted(() => {});
     //   function Car(name, size, color, price, discount) {

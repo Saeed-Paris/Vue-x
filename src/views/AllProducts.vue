@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="filterContainer">
-<<<<<<< HEAD
+      <input placeholder="Search" type="text" v-model="title" />
       <div>
         <ul>
           <li
@@ -57,12 +57,7 @@
         </ul>
       </div>
 
-      <input type="text" v-model="title" />
 
-=======
-      <input placeholder="Search" type="text" v-model="title" />
-      <p>{{ title }}</p>
->>>>>>> Master
       <div>
         <p>Only Available</p>
         <label class="switch">
@@ -155,10 +150,6 @@ export default {
       store.commit("setProductAllColors", null);
       store.commit("resetProductDetail");
       store.dispatch("callApiForProducts", 1);
-<<<<<<< HEAD
-      store.dispatch("callHomeDataFromApi");
-=======
->>>>>>> Master
     });
     return {
       loader,
@@ -170,13 +161,9 @@ export default {
       filterAll,
       toggleValue,
       toggle,
-<<<<<<< HEAD
       categories,
       listFunc,
       zirListItemsflag,callApi
-=======
-
->>>>>>> Master
     };
   },
 };
@@ -221,7 +208,6 @@ export default {
   display: flex;
   flex-direction: column;
 }
-<<<<<<< HEAD
 .filterContainer li {
   list-style-type: none;
   padding: 10px 0 ;
@@ -232,8 +218,6 @@ export default {
   right: 50px;
 
 }
-=======
->>>>>>> Master
 /* copy */
 .switch {
   position: relative;
