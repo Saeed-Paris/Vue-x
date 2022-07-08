@@ -38,6 +38,7 @@
       </div>
     </div>
     <div class="filterContainer">
+<<<<<<< HEAD
       <div>
         <ul>
           <li
@@ -58,6 +59,10 @@
 
       <input type="text" v-model="title" />
 
+=======
+      <input placeholder="Search" type="text" v-model="title" />
+      <p>{{ title }}</p>
+>>>>>>> Master
       <div>
         <p>Only Available</p>
         <label class="switch">
@@ -65,6 +70,7 @@
           <span class="slider round"></span>
         </label>
         <br />
+     
         <br />
         <button @click="filterAll()">فیلتر</button>
       </div>
@@ -84,6 +90,8 @@ export default {
   setup() {
     const store = useStore();
     let title = ref("");
+    let minPrice = ref("");
+    let maxPrice = ref("");
     let productList = ref(null);
     let zirListItemsflag = ref(null);
     let toggleValue = ref(false);
@@ -113,6 +121,7 @@ export default {
     function filterAll() {
       store.commit("toggleLoaderVisibilty", true);
       store.commit("setTitle", title);
+
       store.commit("setAvailability", toggleValue.value ? 1 : 0);
       store.commit("changeCurrentPage", 1);
       store.dispatch("callApiForProducts");
@@ -146,7 +155,10 @@ export default {
       store.commit("setProductAllColors", null);
       store.commit("resetProductDetail");
       store.dispatch("callApiForProducts", 1);
+<<<<<<< HEAD
       store.dispatch("callHomeDataFromApi");
+=======
+>>>>>>> Master
     });
     return {
       loader,
@@ -158,9 +170,13 @@ export default {
       filterAll,
       toggleValue,
       toggle,
+<<<<<<< HEAD
       categories,
       listFunc,
       zirListItemsflag,callApi
+=======
+
+>>>>>>> Master
     };
   },
 };
@@ -205,6 +221,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+<<<<<<< HEAD
 .filterContainer li {
   list-style-type: none;
   padding: 10px 0 ;
@@ -215,6 +232,8 @@ export default {
   right: 50px;
 
 }
+=======
+>>>>>>> Master
 /* copy */
 .switch {
   position: relative;
@@ -222,13 +241,11 @@ export default {
   width: 60px;
   height: 34px;
 }
-
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
 .slider {
   position: absolute;
   cursor: pointer;
@@ -240,7 +257,6 @@ export default {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
@@ -252,26 +268,21 @@ export default {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-
 input:checked + .slider {
   background-color: #2196f3;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #2196f3;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }

@@ -178,7 +178,7 @@ export default createStore({
             : ""
         } 
 `
-
+        // (state.minPrice) ? ("&min_price=" + state.minPrice) : ((state.maxPrice) ? ("&max_price=" + state.maxPrice) : (?))
         // title: "",
         // sortType: null,
         // minPrice: 0,

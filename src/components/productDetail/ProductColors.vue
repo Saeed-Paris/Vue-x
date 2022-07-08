@@ -22,7 +22,6 @@
         :size="itm"
         :class="{
           selectedClass: sizeIndex == index,
-         
         }"
         @click="showQuant(index)"
       />
@@ -62,10 +61,8 @@ export default {
     productSizes = computed(() => {
       return store.getters.getProductAllSizes;
     });
-
     function changeColor(indx) {
       self.colorIndex = indx;
-
       store.commit(
         "setCurrentcolorQuant",
         self.colorIndex * (self.varieties.length / self.productColors.length) +
@@ -89,7 +86,10 @@ export default {
     onMounted(() => {
       store.commit("resetProductColorsSizes");
       store.commit("setCurrentcolorQuant", 0);
+<<<<<<< HEAD
       
+=======
+>>>>>>> Master
       if (self.varieties[0].attributes[0]) {
         const uniqueSizes = [
           ...new Set(
@@ -104,7 +104,6 @@ export default {
         ];
         store.commit("setProductAllColors", uniqueColors);
       }
-
     });
     return {
       colorIndex,
@@ -116,7 +115,6 @@ export default {
       productColors,
     };
   },
-
   components: {
     ProductColorBtn,
     ProductSizeBtn,
