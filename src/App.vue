@@ -25,7 +25,7 @@ export default {
       return store.getters.getCartQuant;
     });
     onMounted(() => {
-        console.log(self.$cookies.get("Cart"));
+     
     });
     return {
       cartQuant,

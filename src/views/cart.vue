@@ -3,7 +3,7 @@
     <ul class="ulCart">
       <li v-for="(item, i) in selctedProdcuts" :key="i">
         <img :src="item.image" alt="" />
-        <hr />
+        <hr /> 
         <div class="liItems">
           <span>name:{{ item.name }}</span>
           <span>color:{{ item.color }}</span>
@@ -26,9 +26,13 @@ export default {
     const store = useStore();
     let selctedProdcuts = ref(null);
     selctedProdcuts = computed(() => {
-      if (self.$cookies.get("Cart")) {
-        return self.$cookies.get("Cart");
-      }
+      // if (self.$cookies.isKey("Cart")) {
+      //   console.log("this is a ", self.$cookies.get("Cart"));
+      //   let matn = self.$cookies.get("Cart");
+      // let qwe=  JSON.parse(matn);
+      //   console.log(qwe);
+      //   // return matn;
+      // }
       return store.getters.getCartQuant;
     });
 

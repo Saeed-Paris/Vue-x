@@ -7,9 +7,8 @@
       <ProductPrice :price="productDetail.price" /> 
       <ProductColors :varieties="productDetail.varieties" />
       <!-- move quantity to Product Colors cuz its based on which color do we want -->
-      <AddToCart /> 
-      <SpecificationsPart :Specifications="productDetail.Specifications" />
- 
+      <AddToCart />
+      <SpecificationsPart :specifications="productDetail.specifications" />
     </div>
   </div>
 </template>
@@ -28,7 +27,6 @@ export default {
   created() {
     self = this;
   },
-
   setup() {
     const store = useStore();
     let productDetail = ref(null);
@@ -40,7 +38,6 @@ export default {
       return store.getters.getFlag;
     });
     function callProductDetail() {
-      
       store.dispatch("callProductDetailFromApi", self.productId);
     }
     onMounted(() => {
@@ -52,7 +49,6 @@ export default {
       flag,
     };
   },
-
   props: ["productId"],
   components: {
     ProductPrice,

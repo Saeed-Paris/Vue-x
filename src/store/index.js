@@ -103,8 +103,7 @@ export default createStore({
     AddProcutToCart(state, data) {
       state.productDetail.varieties[state.currentColor].quantity--;
       state.productQuant--;
-      // state.cartQuant[state.cartQuant.length] =  data;
-      state.cartQuant.push([data]);
+      state.cartQuant[state.cartQuant.length] = data;
     },
     setProductAllColors(state, arr) {
       state.productAllColors = arr;
@@ -172,7 +171,7 @@ export default createStore({
             : ""
         } 
 `
-
+        // (state.minPrice) ? ("&min_price=" + state.minPrice) : ((state.maxPrice) ? ("&max_price=" + state.maxPrice) : (?))
         // title: "",
         // sortType: null,
         // minPrice: 0,

@@ -1,12 +1,7 @@
 <template>
   <section>
-    <div
-      class="specif"
-      v-for="(item, index) in specifications"
-      :key="index"
-    >
+    <div class="specif" v-for="(item, index) in specifications" :key="index">
       <span>{{ item.pivot.value }}</span>
-
       <span>{{ item.label }}</span>
     </div>
   </section>
@@ -14,7 +9,7 @@
 <script>
 export default {
   props: {
-    specifications: Array,
+    specifications: Object,
   },
 };
 </script>
